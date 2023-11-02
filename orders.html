@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>Pizzas and Toppings</title>
+</head>
+
+<body>
+<h1>Pizzas and Toppings</h1>
+
+[ Navigation:  <a href="index.html">Customers</a> | <a href="Drivers.html">Drivers</a> | <a href="orders.html">Orders</a> | <a href="pizzas.html">Pizzas & Toppings</a> ]
+
+<p>This page will display past orders and allow you to create a new one. It also displays details of each order</p>
+
+
+<div>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>orderNum</th>
+    <th>CustomerID</th>
+    <th>DriverID</th>
+    <th>Price</th>
+    <th>Date</th>
+    <th>Cancelled</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <th>customerID_1</th>
+    <th>driverID_1</th>
+    <th>sum of pizza prices for this order</th>
+    <th>date_1</th>
+    <th>N</th>
+  </tr>
+  <tr>
+    <th>2</th>
+    <th>customerID_2</th>
+    <th>driverID_2</th>
+    <th>sum of pizza prices for this order</th>
+    <th>date_2</th>
+    <th>N</th>
+  </tr>
+  <tr>
+    <th>3</th>
+    <th>customerID_3</th>
+    <th>driverID_3</th>
+    <th>sum of pizza prices for this order</th>
+    <th>date_3</th>
+    <th>N</th>
+  </tr>
+</table>
+</div>
+
+<p>Order details</p>
+
+<div>
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>orderItemID</th>
+      <th>orderNum</th>
+      <th>PizzaID</th>
+      <th>Quantity</th>
+    </tr>
+    <tr>
+      <th>1</th>
+      <th>orderNum_1</th>
+      <th>pizzaID_1</th>
+      <th>quantity_1</th>
+      
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>orderNum_2</th>
+      <th>pizzaID_2</th>
+      <th>quantity_2</th>
+      
+    </tr>
+    <tr>
+      <th>3</th>
+      <th>orderNum_3</th>
+      <th>pizzaID_3</th>
+      <th>quantity_3</th>
+      
+    </tr>
+  </table>
+  <p>
+  </div>
+
+<div>
+  <form>
+    <legend><strong>Create New Pizza</strong></legend>
+      <fieldset class="fields">
+
+        <label>Customer: </label> <select name="toppingID">
+            <option value="1">Customer</option>
+        </select>
+        <label>Driver: </label> <select name="toppingID">
+          <option value="1">Driver</option>
+        </select>
+        <label>Pizza 1: </label> <select name="toppingID">
+          <option value="1">Pizza</option>
+        </select>
+        <label>Qty 1: </label> <select name="toppingID">
+          <option value="1">Quantity</option>
+        </select>
+        <label>Pizza 2: </label> <select name="toppingID">
+          <option value="1">Pizza</option>
+        </select>
+        <label>Pizza 3: </label> <select name="toppingID">
+          <option value="1">Pizza</option>
+          </select>
+      </fieldset>
+      <input class="btn" type="submit" id="addPizza" value="Add Pizza">
+</form> 
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>Customers</title>
+</head>
+
+<body>
+<h1>Customers</h1>
+
+[ Navigation:  <a href="index.html">Customers</a> | <a href="Drivers.html">Drivers</a> | <a href="orders.html">Orders</a> | <a href="pizzas.html">Pizzas & Toppings</a> ]
+
+<p>This page will display the current list of customers, and will provide a form and an interface to add a customer to the database, as well as update or delete a customer record.</p>
+
+
+<div>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>customerID</th>
+    <th>name</th>
+    <th>address</th>
+    <th>phoneNumber</th>
+    <th>emailAddress</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <th>name_1</th>
+    <th>address_3</th>
+    <th>phoneNumber_1</th>
+    <th>emailAddress_1</th>
+  </tr>
+  <tr>
+    <th>2</th>
+    <th>name_2</th>
+    <th>address_3</th>
+    <th>phoneNumber_2</th>
+    <th>emailAddress_2</th>
+  </tr>
+  <tr>
+    <th>3</th>
+    <th>name_3</th>
+    <th>address_3</th>
+    <th>phoneNumber_3</th>
+    <th>emailAddress_3</th>
+  </tr>
+</table>
+<p>
+</div>
+
+<div>
+    <form>
+        <legend><strong>New Customer</strong></legend>
+          <fieldset class="fields">
+            <label>Name: </label> <input type="text">
+            <label>Address: </label> <input type="text">
+            <label>Phone Number: </label> <input type="text">
+            <label>email: </label> <input type="text">   
+          </fieldset>
+          <input class="btn" type="submit" id="addCustomer" value="Add Customer">
+    </form> 
+</div>
+
+<div>
+    <form>
+        <legend><strong>Update Customer</strong></legend>
+          <fieldset class="fields">
+            <label>ID: </label> <select name="customerID">
+            	<option value="0">&nbsp;</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                </select>
+            <label>Name: </label> <input type="text">
+            <label>Address: </label> <input type="text">
+            <label>Phone Number: </label> <input type="text">
+            <label>email: </label> <input type="text">   
+          </fieldset>
+          <input class="btn" type="submit" id="updateCustomer" value="Update Customer">
+    </form> 
+</div>
+
+<div>
+    <form>
+        <legend><strong>Delete Customer</strong></legend>
+          <fieldset class="fields">
+            <label>ID: </label> <select name="customerID">
+            	<option value="0">&nbsp;</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                </select>
+            </fieldset>
+          <input class="btn" type="submit" id="deleteCustomer" value="Delete Customer">
+    </form> 
+</div>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>Pizzas and Toppings</title>
+</head>
+
+<body>
+<h1>Pizzas and Toppings</h1>
+
+[ Navigation:  <a href="index.html">Customers</a> | <a href="Drivers.html">Drivers</a> | <a href="orders.html">Orders</a> | <a href="pizzas.html">Pizzas & Toppings</a> ]
+
+<p>This page will display the current list of pizzas and available toppings.</p>
+
+
+<div>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>pizzaID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>List of Toppings</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <th>Name_1</th>
+    <th>Price_1</th>
+    <th>Description_1</th>
+    <th>toppings from pizzatoppings and toppings table where pizzaID = 1</th>
+  </tr>
+  <tr>
+    <th>2</th>
+    <th>Name_2</th>
+    <th>Price_2</th>
+    <th>Description_2</th>
+    <th>toppings from pizzatoppings and toppings table where pizzaID = 2</th>
+  </tr>
+  <tr>
+    <th>3</th>
+    <th>Name_3</th>
+    <th>Price_3</th>
+    <th>Description_3</th>
+    <th>toppings from pizzatoppings and toppings table where pizzaID = 3</th>
+  </tr>
+</table>
+<p>
+</div>
+
+<div>
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>toppingID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Quantity in Inventory</th>
+    </tr>
+    <tr>
+      <th>1</th>
+      <th>Name_1</th>
+      <th>Price_1</th>
+      <th>Quantity_1</th>
+      
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>Name_2</th>
+      <th>Price_2</th>
+      <th>Quantity_2</th>
+      
+    </tr>
+    <tr>
+      <th>3</th>
+      <th>Name_3</th>
+      <th>Price_3</th>
+      <th>Quantity_3</th>
+      
+    </tr>
+  </table>
+  <p>
+  </div>
+
+<div>
+    <form>
+        <legend><strong>Add A Topping</strong></legend>
+          <fieldset class="fields">
+            <label>Name: </label> <input type="text">
+            <label>Price: </label> <input type="text">
+            <label>Quantity: </label> <input type="text">   
+          </fieldset>
+          <input class="btn" type="submit" id="addTopping" value="Add Topping">
+    </form> 
+</div>
+
+<div>
+  <form>
+      <legend><strong>Create New Pizza</strong></legend>
+        <fieldset class="fields">
+          <label>Name: </label> <input type="text">
+          <label>Price: </label> <input type="text">
+          <label>Description: </label> <input type="text">
+          <label>Topping 1: </label> <select name="toppingID">
+              <option value="1">Topping Name 1</option>
+              <option value="2">Topping Name 2</option>
+              <option value="3">Topping Name 3</option>
+          </select>
+          <label>Topping 2: </label> <select name="toppingID">
+            <option value="0">None</option>
+            <option value="1">Topping Name 1</option>
+            <option value="2">Topping Name 2</option>
+            <option value="3">Topping Name 3</option>
+          </select>
+          <label>Topping 3: </label> <select name="toppingID">
+            <option value="0">None</option>
+            <option value="1">Topping Name 1</option>
+            <option value="2">Topping Name 2</option>
+            <option value="3">Topping Name 3</option>
+          </select>
+          <label>Topping 4: </label> <select name="toppingID">
+            <option value="0">None</option>
+            <option value="1">Topping Name 1</option>
+            <option value="2">Topping Name 2</option>
+            <option value="3">Topping Name 3</option>
+          </select>
+          <label>Topping 5: </label> <select name="toppingID">
+            <option value="0">None</option>
+            <option value="1">Topping Name 1</option>
+            <option value="2">Topping Name 2</option>
+            <option value="3">Topping Name 3</option>
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="addPizza" value="Add Pizza">
+  </form> 
+</div>
+</body>
+</html>
