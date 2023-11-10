@@ -6,7 +6,7 @@
 <body>
 <h1>Pizzas and Toppings</h1>
 
-[ Navigation:  <a href="index.html">Customers</a> | <a href="Drivers.html">Drivers</a> | <a href="orders.html">Orders</a> | <a href="pizzas.html">Pizzas & Toppings</a> ]
+[ Navigation:  <a href="index.html">Customers</a> | <a href="drivers.html">Drivers</a> | <a href="orders.html">Orders</a> | <a href="pizzas.html">Pizzas & Toppings</a> ]
 
 <p>This page will display the current list of pizzas and available toppings.</p>
 
@@ -128,6 +128,18 @@
             </select>
         </fieldset>
         <input class="btn" type="submit" id="addPizza" value="Add Pizza">
+  </form> 
+</div>
+
+<div>
+  <form>
+      <legend><strong>Delete a Pizza</strong></legend>
+        <fieldset class="fields">
+          <label>Pizza: </label> <select name="toppingID">
+            <option value="1">Pizza</option>
+          </select>
+        </fieldset>
+        <input class="btn" type="submit" id="deletePizza" value="Delete Pizza">
   </form> 
 </div>
 </body>
