@@ -45,6 +45,7 @@ ORDER BY name ASC;
 -- Operations for Orders page
 
 -- Get driver IDs and names to populate dropdown
+-- Null option will be available as well from the UI
 SELECT driverID, name
 FROM Drivers
 ORDER BY name ASC;
@@ -57,6 +58,9 @@ ORDER BY name ASC;
 -- Create a new order
 INSERT INTO Orders (customerID, driverID, date)
 VALUES (:customer_id_from_dropdown, :driver_id_from_dropdown, :date_from_server);
+-- Get the ID of the new order to insert order details
+SELECT LAST_INSERT_ID()
+FROM Orders;
 
 -- Get all orders to populate orders page
 SELECT orderNum, customerID, driverID, price, date, cancelled
@@ -76,6 +80,7 @@ VALUES (:order_number_from_order_form, :pizza_id_from_dropdown, :quantity_from_i
 UPDATE Orders
 SET
 	price = (SELECT sum(Pizzas.price) FROM OrderItems JOIN Pizzas ON OrderItems.pizzaID = Pizzas.pizzaID WHERE OrderItems.orderNum = :order_number_from_order_form) 
+    driverID = :driver_id_from_dropdown
 WHERE orderNum = :order_number_from_order_form;
 
 -- Operations for the Pizzas and Toppings Page 
@@ -83,6 +88,9 @@ WHERE orderNum = :order_number_from_order_form;
 -- Create a new pizza
 INSERT INTO Pizzas (name, price, description)
 VALUES (:name_from_input, :price_from_input, :quantity_from_input);
+-- Get the ID of the new pizza to insert toppings
+SELECT LAST_INSERT_ID()
+FROM Pizzas;
 
 -- Get all pizzas to populate the pizza page
 SELECT Pizzas.pizzaID, Pizzas.name, Pizzas.price, Pizzas.description, group_concat(Toppings.name) AS 'toppings'
@@ -110,6 +118,11 @@ ORDER BY name ASC;
 -- Add a topping to a pizza
 INSERT INTO PizzaToppings (pizzaID, toppingID, quantity)
 VALUES (:pizza_id_from_pizza_form, topping_id_from_dropdown, :quantity_from_input);
+
+-- Delete a pizza
+DELETE
+FROM Pizzas
+WHERE pizzaID = :pizza_id_from_dropdown
 
 
 
