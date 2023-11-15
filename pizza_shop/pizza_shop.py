@@ -10,18 +10,18 @@ app = Flask(__name__)
 
 # database connection
 # Template:
-# app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-# app.config["MYSQL_USER"] = "cs340_OSUusername"
-# app.config["MYSQL_PASSWORD"] = "XXXX" | last 4 digits of OSU id
-# app.config["MYSQL_DB"] = "cs340_OSUusername"
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_walsbria"
+app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
+app.config["MYSQL_DB"] = "cs340_walsbria"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "brian"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "project_schema"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# app.config["MYSQL_HOST"] = "localhost"
+# app.config["MYSQL_USER"] = "brian"
+# app.config["MYSQL_PASSWORD"] = ""
+# app.config["MYSQL_DB"] = "project_schema"
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -70,7 +70,7 @@ def customers():
 
             # no null inputs
             # else:
-            query = "INSERT INTO customers (name, address, phoneNumber, emailAddress) VALUES (%s, %s,%s,%s)"
+            query = "INSERT INTO Customers (name, address, phoneNumber, emailAddress) VALUES (%s, %s,%s,%s)"
             cur = mysql.connection.cursor()
             cur.execute(query, (name, address, phone, email))
             mysql.connection.commit()
@@ -81,7 +81,7 @@ def customers():
     # Grab bsg_people data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the people in bsg_people
-        query = "SELECT * from customers"
+        query = "SELECT * from Customers"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -101,7 +101,7 @@ def customers():
 @app.route("/delete_customer/<int:customerID>")
 def delete_customers(customerID):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM customers WHERE customerID = '%s';"
+    query = "DELETE FROM Customers WHERE customerID = '%s';"
     cur = mysql.connection.cursor()
     cur.execute(query, (customerID,))
     mysql.connection.commit()
@@ -116,7 +116,7 @@ def delete_customers(customerID):
 def edit_customer(customerID):
     if request.method == "GET":
         # mySQL query to grab the info of the person with our passed id
-        query = "SELECT * FROM customers WHERE customerID = %s" % (customerID)
+        query = "SELECT * FROM Customers WHERE customerID = %s" % (customerID)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -177,4 +177,4 @@ def edit_customer(customerID):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=42068, debug=True)
+    app.run(port=42067, debug=True)
