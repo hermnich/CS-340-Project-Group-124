@@ -1,39 +1,24 @@
 <html>
-<!-- Adapted from the people.html UI design -->
+<!-- Citation for the following code: -->
+<!-- Date: 2023/11/15 -->
+<!-- Based on: -->
+<!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
+
 <head>
 	<title>Customers</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
-		 * four DIVS: browse, insert, update, delete
-		 * this function sets one visible the others not
+		 * two DIVS: browse and insert
+		 * this function sets one visible the other not
 		 */
 		if(dowhat == 'insert') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'delete') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'block';
-		} else if(dowhat == 'all') {
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'block';
 		} else { //by default display browse
 			document.getElementById('browse').style.display = 'block';
 			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
 		}
 	}
 
@@ -41,66 +26,54 @@
 		showform('insert');
 	}
 
-	function updatePerson(pid) {
-		showform('update');
-	}
-
-	function deletePerson(pid) {
-		showform('delete');
-	}
-
-	function browsePeople() {
+	function browseCustomers() {
 		showform('browse');
-	}
-
-	function showAll() {
-		showform('all');
 	}
 	</script>
 </head>
 
-<body onload="browsePeople()">
+<body onload="browseCustomers()">
+	<!-- Navigation header -->
 	<h1>Customers</h1> [ <a href="customers">Customers</a> | Drivers | Orders | Pizzas and Toppings ]
+	<!-- browse -->
 	<div id="browse">
 		<p><a href="#" onClick="newCustomer()">Add New Customer</a> </p>
 		<table border="1" cellpadding="5">
-            <!-- Access data tuple passed from app.py --> 
+            <!-- Access data tuple passed from pizza_shop.py --> 
             {% if data %}
 			    <thead>
 				    <tr>
-					    <!-- Iterate through each key in the first entry to get the column name -->
-                        {% for key in data[0].keys() %}
-					    
-                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
-					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
-					
-                        <!-- End of this for loop -->
-                        {% endfor %} 
+					    <!-- Iterate through each key in the first entry to get the column names -->
+                        <!-- {% for key in data[0].keys() %} -->
+                            <!-- Create the header row -->
+                        <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
+                        <!-- {% endfor %} -->
+                        <th>ID</th><th>Name</th><th>Address</th><th>Phone Number</th><th>Email</th> 
                     </tr>
 
 				<tbody>
-					<!-- Now, iterate through every item in data -->{% for item in data %}
+					<!-- Iterate through every item in data -->
+					{% for item in data %}
 					    <tr>
 						    <!-- Then iterate through every key in the current item dictionary -->
                             {% for key in item.keys() %}
-
-						    <!-- Create a <td> element with the value of that key in it -->
-						    <td> {{item[key]}} </td> 
+								<!-- Create a <td> element with the value of that key in it -->
+								<td> {% if item[key] %} {{item[key]}} {% endif %} </td> 
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
 						    <td><a href="edit_customer/{{item.customerID}}" class="btn btn-default">Edit</a></td>
 						    <td><a href="delete_customer/{{item.customerID}}" class="btn btn-default">Delete</a></td>
-
 					    </tr> 
-                        {% endfor %} 
+                    {% endfor %} 
                 {% endif %} 
         </table>   
-	<p>&nbsp;</p>
-	</div>	<!-- browse -->
+		<p>&nbsp;</p>
+	</div>
 
+	<!--insert-->
 	<div id="insert">
-		<!-- form to INSERT new data into bsg_people-->
+		<!-- form to INSERT new data into Customers-->
 		<form id="insertCustomer" action="/customers" method="post">
 			<legend><strong>Add Customer</strong></legend>
 			<fieldset>
@@ -114,41 +87,14 @@
 				<label for="phone">Phone Number:</label>
 				<input type="text" class="form-control" id="phone" name="phone" title="Enter digits only" pattern="[0-9]{10}" placeholder="1234567890" required>
 
-				<label for="email">eMail:</label>
+				<label for="email">Email:</label>
 				<input type="text" class="form-control" id="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="email@dom.tld"> 
             </fieldset>
 
-            <!-- Create 'Add Person' and 'Cancel' buttons -->
+            <!-- Create 'Add Customer' and 'Cancel' buttons -->
 			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browsePeople()"> 
+			<input class="btn" type="button" value="Cancel" onClick="browseCustomers()"> 
         </form>
-	</div><!--insert-->
-	{# <div id="edit">
-		<!-- form to edit data in bsg_people-->
-		<form id="editPerson" action="/edit_customer/{{data[0].id}}" method="post">
-			<legend><strong>Edit Person</strong></legend>
-			<fieldset>
-				<input type="hidden" value="{{data[0].id}}" class="form-control" id="personID" name="personID" required>
-				<label for="make">first name:</label>
-
-				<input type="text" class="form-control" id="fname" name="fname" pattern="[A-Za-z]{1,}" placeholder="{{data[0].fname}}" required>
-				<label for="model">last name:</label>
-
-				<input type="text" class="form-control" id="lname" name="lname" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].lname}}" required>
-				<label for="year">homeworld:</label>
-
-				<select class="form-control" id="homeworld" name="homeworld" pattern="[0-4]{1}" placeholder="" required>
-					<option value="0">&nbsp;</option>
-					<option value="1">Gemenon</option>
-					<option value="2">Leonis</option>
-					<option value="3">Caprica</option>
-					<option value="{{data[0].homeworld}}" selected></option>
-				</select>
-
-				<label for="color">age:</label>
-				<input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].age}}" required> </fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
-        </form>
-	</div><!--edit--> #}
+	</div>
 </body>
 </html>
