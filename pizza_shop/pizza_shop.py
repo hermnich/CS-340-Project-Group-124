@@ -12,11 +12,11 @@ import os
 app = Flask(__name__)
 
 # database connection
-# Template:
+# Template: oops
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_walsbria"
+app.config["MYSQL_USER"] = "cs340_"
 app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
-app.config["MYSQL_DB"] = "cs340_walsbria"
+app.config["MYSQL_DB"] = "cs340_"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
