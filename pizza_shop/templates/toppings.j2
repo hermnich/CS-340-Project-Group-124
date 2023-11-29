@@ -29,6 +29,12 @@
 	function browseToppings() {
 		showform('browse');
 	}
+
+	function onDelete(toppingID) {
+		if (window.confirm(`Are you sure you want to delete topping ${toppingID}`)) {
+			window.location.href = `delete_topping/${toppingID}`
+		}
+	}
 	</script>
 </head>
 
@@ -62,7 +68,7 @@
 
                             <!-- Create our edit/delete buttons -->
 						    <td><a href="edit_topping/{{item.toppingID}}"><input class="btn" type="button" value="Edit"></a></td>
-						    <td><a href="delete_topping/{{item.toppingID}}"><input class="btn" type="button" value="Delete"></a></td>
+						    <td><input class="btn" type="button" value="Delete" onClick="onDelete({{item.toppingID}})"></a></td>
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 

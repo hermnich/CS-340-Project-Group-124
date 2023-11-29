@@ -7,6 +7,15 @@
 <head>
 	<title>Edit Pizza</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <script language="JavaScript">
+	
+	function onDelete(pizzaID, pizzaToppingID) {
+		if (window.confirm(`Are you sure you want to delete pizza topping ${pizzaToppingID}`)) {
+			window.location.href = `/edit_pizza/${pizzaID}/delete_pizza_topping/${pizzaToppingID}`
+		}
+	}
+
+	</script>
 </head>
 
 <body>
@@ -93,7 +102,7 @@
 
                             <!-- Create our edit/delete buttons -->
                             <td><input type="submit" value="Save" name="Edit_Pizza_Topping" class="btn btn-default"></td>
-                            <td><a href="/edit_pizza/{{pizza_data[0].pizzaID}}/delete_pizza_topping/{{item.pizzaToppingID}}"><input class="btn" type="button" value="Delete"></a></td>
+                            <td><input class="btn" type="button" value="Delete" onClick="onDelete({{pizza_data[0].pizzaID}}, {{item.pizzaToppingID}})"></a></td>
                         </form>
                     </tr> 
                 {% endfor %} 

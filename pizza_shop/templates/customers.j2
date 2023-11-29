@@ -29,6 +29,13 @@
 	function browseCustomers() {
 		showform('browse');
 	}
+
+	function onDelete(customerID) {
+		if (window.confirm(`Are you sure you want to delete customer ${customerID}`)) {
+			window.location.href = `delete_customer/${customerID}`
+		}
+	}
+
 	</script>
 </head>
 
@@ -37,7 +44,6 @@
 	<h1>Customers</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | <a href="pizzas">Pizzas</a> | <a href="toppings">Toppings</a> ]
 	<!-- browse -->
 	<div id="browse">
-		<p><a href="#" onClick="newCustomer()">Add New Customer</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from pizza_shop.py --> 
             {% if data %}
@@ -62,13 +68,13 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_customer/{{item.customerID}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_customer/{{item.customerID}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_customer/{{item.customerID}}"><input class="btn" type="button" value="Edit"></a></td>
+						    <td><input class="btn" type="button" value="Delete" onClick="onDelete({{item.customerID}})"> </td>
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
         </table>   
-		<p>&nbsp;</p>
+		<p><input class="btn" type="button" value="Add New Customer" onClick="newCustomer()"></p>
 	</div>
 
 	<!--insert-->

@@ -7,6 +7,15 @@
 <head>
 	<title>Pizzas</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	
+	function onDelete(pizzaID) {
+		if (window.confirm(`Are you sure you want to delete pizza ${pizzaID}`)) {
+			window.location.href = `delete_pizza/${pizzaID}`
+		}
+	}
+
+	</script>
 </head>
 
 <body>
@@ -39,7 +48,7 @@
 
                             <!-- Create our edit/delete buttons -->
 						    <td><a href="edit_pizza/{{item.pizzaID}}"><input class="btn" type="button" value="Edit"></a></td>
-						    <td><a href="delete_pizza/{{item.pizzaID}}"><input class="btn" type="button" value="Delete"></a></td>
+						    <td><input class="btn" type="button" value="Delete" onClick="onDelete({{item.pizzaID}})"></a></td>
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 

@@ -29,6 +29,13 @@
 	function browseDrivers() {
 		showform('browse');
 	}
+
+	function onDelete(driverID) {
+		if (window.confirm(`Are you sure you want to delete driver ${driverID}`)) {
+			window.location.href = `delete_driver/${driverID}`
+		}
+	}
+
 	</script>
 </head>
 
@@ -62,12 +69,12 @@
 
                             <!-- Create our edit/delete buttons -->
 						    <td><a href="edit_driver/{{item.driverID}}"><input class="btn" type="button" value="Edit"></a></td>
-						    <td><a href="delete_driver/{{item.driverID}}"><input class="btn" type="button" value="Delete"></a></td>
+							<td><input input class="btn" type="button" value="Delete" onClick="onDelete({{item.driverID}})"/></td>
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
         </table>   
-		<p><a href="#" onClick="newDriver()"><input class="btn" type="button" value="Add New Driver"></a> </p>
+		<p><input class="btn" type="button" value="Add New Driver" onClick="newDriver()"></p>
 	</div>
 
 	<!--insert-->
