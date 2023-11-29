@@ -1,0 +1,125 @@
+<html>
+<!-- Citation for the following code: -->
+<!-- Date: 2023/11/15 -->
+<!-- Based on: -->
+<!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
+
+<head>
+	<title>Edit Pizza</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <caption><strong>Editing Pizza: </strong></caption>
+    <table border="1" cellpadding="5"> 
+        <!-- Access data tuple passed from pizza_shop.py -->
+        {% if pizza_data %}
+            <thead>
+                <tr>
+                    <!-- Iterate through each key in the first entry to get the column names -->
+                    <!-- {% for key in pizza_data[0].keys() %} -->
+                        <!-- Create the header row -->
+                    <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
+                    <!-- {% endfor %} -->
+                    <th>ID</th><th>Name</th><th>Price</th><th>Description</th><th>Toppings</th>
+                </tr>
+
+            <tbody>
+                <!-- iterate through every item in data -->
+                {% for item in pizza_data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                            <!-- Create a <td> element with the value of that key in it -->
+                            <td>{% if item[key] %} {{item[key]}} {% endif %}</td> 
+                        {% endfor %} 
+                    </tr> 
+                {% endfor %} 
+        {% endif %} 
+    </table>
+    <p>&nbsp;</p>
+
+    <!-- form to UPDATE data in Pizzas-->
+    <form id="editPizza" action="/edit_pizza/{{pizza_data[0].pizzaID}}" method="post">
+        <legend><strong>Edit Pizza:</strong></legend>
+        <fieldset>
+            <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value='{{pizza_data[0].name}}' pattern="[A-Za-z ]{1,}" placeholder="Pepperoni" required>
+
+            <label for="price">Price:</label>
+            <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" value={{pizza_data[0].price}} placeholder="13.99" required>
+
+            <label for="desc">Description:</label>
+            <input type="text" size="80" class="form-control" id="desc" name="desc" value='{{pizza_data[0].description}}' pattern="[A-Za-z ]{0,}"> 
+        </fieldset>
+
+        <input type="submit" value="Edit Pizza" name="Edit_Pizza" class="btn btn-primary" style="margin:.5rem;">
+    </form>
+
+    <!-- forms to UPDATE data in PizzaToppings-->
+    <caption><strong>Edit Pizza Toppings: </strong></caption>
+    <table border="1" cellpadding="5">
+        <!-- Access data tuple passed from pizza_shop.py --> 
+        {% if topping_data %}
+            <thead>
+                <tr>
+                    <!-- Iterate through each key in the first entry to get the column names -->
+                    <!-- {% for key in topping_data[0].keys() %} -->
+                        <!-- Create the header row -->
+                    <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
+                    <!-- {% endfor %} -->
+                    <th>ID</th><th>Name</th><th>Quantity</th>
+                </tr>
+
+            <tbody>
+                <!-- Iterate through every item in data -->
+                {% for item in topping_data %}
+                    <tr>
+                        <form id="editPizzaTopping" action="/edit_pizza/{{pizza_data[0].pizzaID}}/edit_pizza_topping/{{item.pizzaToppingID}}" method="post">
+                            <td>{{item.pizzaToppingID}}</td>
+                            <td><select class="form-control" id="toppingID" name="toppingID">
+                                {% if topping_list %}
+                                    {% for topping in topping_list %}
+                                        {% if topping.toppingID == item.toppingID %}
+                                            <option value="{{topping.toppingID}}" label="{{topping.name}}" selected="selected"></option>
+                                        {% else %}
+                                            <option value="{{topping.toppingID}}" label="{{topping.name}}"></option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %} 
+                            </select></td>
+                            <td><input type="number" min="1" class="form-control" id="qty" name="qty" value="{{item.quantity}}" placeholder="1" required/></td>
+
+                            <!-- Create our edit/delete buttons -->
+                            <td><input type="submit" value="Save" name="Edit_Pizza_Topping" class="btn btn-default"></td>
+                            <td><a href="/edit_pizza/{{pizza_data[0].pizzaID}}/delete_pizza_topping/{{item.pizzaToppingID}}"><input class="btn" type="button" value="Delete"></a></td>
+                        </form>
+                    </tr> 
+                {% endfor %} 
+            {% endif %} 
+    </table>   
+    <p>&nbsp;</p>
+
+    <!-- form to ADD data in PizzaToppings-->
+    <caption><strong>Add Pizza Topping: </strong></caption>
+    <form id="addPizzaTopping" action="/edit_pizza/{{pizza_data[0].pizzaID}}/add_pizza_topping" method="post">
+    <fieldset>
+        <select class="form-control" id="toppingID" name="toppingID">
+            {% if topping_list %}
+                {% for topping in topping_list %}
+                    <option value="{{topping.toppingID}}" label="{{topping.name}}"></option>
+                {% endfor %}
+            {% endif %} 
+        </select>
+        <input type="number" min="1" class="form-control" id="qty" name="qty" placeholder="1" required/>
+    </fieldset>
+    
+    <!-- Create our edit/delete buttons -->
+    <input type="submit" value="Add Topping" name="Add_Pizza_Topping" class="btn btn-primary" style="margin:.5rem;">
+    </form>
+    
+
+    <a href='/pizzas'><input class="btn" type="button" value="cancel"></a>
+
+</html>

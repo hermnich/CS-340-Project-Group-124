@@ -1,0 +1,62 @@
+<html>
+<!-- Citation for the following code: -->
+<!-- Date: 2023/11/15 -->
+<!-- Based on: -->
+<!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
+
+<head>
+	<title>Edit Driver</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div>
+        <caption><strong>Editing Driver: </strong></caption>
+        <table border="1" cellpadding="5"> 
+            <!-- Access data tuple passed from pizza_shop.py -->
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column names -->
+                        <!-- {% for key in data[0].keys() %} -->
+                            <!-- Create the header row -->
+                        <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
+                        <!-- {% endfor %} -->
+                        <th>ID</th><th>Name</th><th>Phone Number</th><th>Car Model</th> 
+                    </tr>
+
+                <tbody>
+                    <!-- iterate through every item in data -->
+                    {% for item in data %}
+                        <tr>
+                            <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+                                <!-- Create a <td> element with the value of that key in it -->
+                                <td>{% if item[key] %} {{item[key]}} {% endif %}</td> 
+                            {% endfor %} 
+                        </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+
+        <div id="edit">
+            <!-- form to UPDATE data in Drivers-->
+            <form id="editDriver" action="/edit_driver/{{data[0].driverID}}" method="post">
+                <legend><strong>Edit Driver</strong></legend>
+                <fieldset>
+                    <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{data[0].name}}" pattern="[A-Za-z]{1,}" placeholder="Jane" required>
+
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" title="Enter digits only" value="{{data[0].phoneNumber}}" pattern="[0-9-]{10,12}" placeholder="123-456-7890" required>
+
+                    <label for="car">Car Model:</label>
+				    <input type="text" class="form-control" id="car" name="car" value="{{data[0].carModel}}" pattern="[A-Za-z ]{1,}" placeholder="Ford Ranger" required> 
+                </fieldset>	
+
+                <input type="submit" value="Edit Driver" name="Edit_Driver" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/drivers'><input class="btn" type="button" value="cancel"></a>
+            </form>
+
+</html>

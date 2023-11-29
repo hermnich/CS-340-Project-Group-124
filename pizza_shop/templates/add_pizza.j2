@@ -1,0 +1,91 @@
+<html>
+<!-- Citation for the following code: -->
+<!-- Date: 2023/11/15 -->
+<!-- Based on: -->
+<!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
+
+<head>
+	<title>Add Pizza</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script language="JavaScript">
+    
+	</script>
+</head>
+
+<body>
+    <!-- form to UPDATE data in Pizzas-->
+    <form id="addPizza" action="/add_pizza" method="post">
+        <legend><strong>Add Pizza:</strong></legend>
+        <fieldset>
+            <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value='{% if values.pizza.name %} {{values.pizza.name}} {% endif %}' pattern="[A-Za-z ]{1,}" placeholder="Pepperoni" required>
+
+            <label for="price">Price:</label>
+            <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" value='{% if values.pizza.price %} {{values.pizza.price}} {% endif %}' placeholder="13.99" required>
+
+            <label for="desc">Description:</label>
+            <input type="text" size="80" class="form-control" id="desc" name="desc" value='{% if values.pizza.description %} {{values.pizza.description}} {% endif %}' pattern="[A-Za-z ]{0,}"> 
+        </fieldset>
+
+        <input type="hidden" name="values" value="{{values}}"/>
+        <input type="submit" value="Add Pizza" name="Add_Pizza" class="btn btn-primary" style="margin:.5rem;">
+    </form>
+    
+    <!-- forms to UPDATE data in PizzaToppings-->
+    <caption><strong>Edit Pizza Toppings: </strong></caption>
+    <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Name</th><th>Quantity</th>
+                </tr>
+
+            <tbody>
+                <!-- Iterate through every item in data -->
+                {% for item in values.toppings %}
+                    <tr>
+                        <form id="editPizzaTopping" action="/add_pizza" method="post">
+                            <td><select class="form-control" id="toppingID" name="toppingID">
+                                {% for topping in topping_list %}
+                                    {% if topping.toppingID == item.toppingID | int %}
+                                        <option value="{{topping.toppingID}}" label="{{topping.name}}" selected="selected"></option>
+                                    {% else %}
+                                        <option value="{{topping.toppingID}}" label="{{topping.name}}"></option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select></td>
+                            <td><input type="number" min="1" class="form-control" id="qty" name="qty" value="{{item.quantity}}" placeholder="1" required/></td>
+
+                            <!-- Create our edit/delete buttons -->
+                            <td><input type="submit" value="Save" name="Edit_Pizza_Topping" class="btn btn-primary"/></td>
+                            <td><input type="submit" value="Delete" name="Delete_Pizza_Topping" class="btn btn-primary"/></td>
+                            <input type="hidden" name="values" value="{{values}}"/>
+                            <input type="hidden" name="index" value="{{loop.index0}}"/>
+                        </form>
+                    </tr> 
+                {% endfor %} 
+    </table>   
+    <p>&nbsp;</p>
+
+    <!-- form to ADD data in PizzaToppings-->
+    <caption><strong>Add Pizza Topping: </strong></caption>
+    <form id="addPizzaTopping" action="/add_pizza" method="post">
+    <fieldset>
+        <select class="form-control" id="toppingID" name="toppingID">
+            {% if topping_list %}
+                {% for topping in topping_list %}
+                    <option value="{{topping.toppingID}}" label="{{topping.name}}"></option>
+                {% endfor %}
+            {% endif %} 
+        </select>
+        <input type="number" min="1" class="form-control" id="qty" name="qty" placeholder="1" required/>
+    </fieldset>
+
+    <input type="hidden" name="values" value="{{values}}"/>
+    <input type="submit" value="Add Topping" name="Add_Pizza_Topping" class="btn btn-primary" style="margin:.5rem;">
+    </form>
+    
+
+    <a href='/pizzas'><input class="btn" type="button" value="cancel"></a>
+
+</html>

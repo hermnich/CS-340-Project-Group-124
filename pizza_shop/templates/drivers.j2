@@ -5,7 +5,7 @@
 <!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
 
 <head>
-	<title>Customers</title>
+	<title>Drivers</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -22,22 +22,21 @@
 		}
 	}
 
-	function newCustomer() {
+	function newDriver() {
 		showform('insert');
 	}
 
-	function browseCustomers() {
+	function browseDrivers() {
 		showform('browse');
 	}
 	</script>
 </head>
 
-<body onload="browseCustomers()">
+<body onload="browseDrivers()">
 	<!-- Navigation header -->
-	<h1>Customers</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | <a href="pizzas">Pizzas</a> | <a href="toppings">Toppings</a> ]
+	<h1>Drivers</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | <a href="pizzas">Pizzas</a> | <a href="toppings">Toppings</a> ]
 	<!-- browse -->
 	<div id="browse">
-		<p><a href="#" onClick="newCustomer()">Add New Customer</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from pizza_shop.py --> 
             {% if data %}
@@ -48,7 +47,7 @@
                             <!-- Create the header row -->
                         <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
                         <!-- {% endfor %} -->
-                        <th>ID</th><th>Name</th><th>Address</th><th>Phone Number</th><th>Email</th> 
+                        <th>ID</th><th>Name</th><th>Phone Number</th><th>Car Model</th> 
                     </tr>
 
 				<tbody>
@@ -62,38 +61,35 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_customer/{{item.customerID}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_customer/{{item.customerID}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_driver/{{item.driverID}}"><input class="btn" type="button" value="Edit"></a></td>
+						    <td><a href="delete_driver/{{item.driverID}}"><input class="btn" type="button" value="Delete"></a></td>
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
         </table>   
-		<p>&nbsp;</p>
+		<p><a href="#" onClick="newDriver()"><input class="btn" type="button" value="Add New Driver"></a> </p>
 	</div>
 
 	<!--insert-->
 	<div id="insert">
-		<!-- form to INSERT new data into Customers-->
-		<form id="insertCustomer" action="/customers" method="post">
-			<legend><strong>Add Customer</strong></legend>
+		<!-- form to INSERT new data into Drivers-->
+		<form id="insertDriver" action="/drivers" method="post">
+			<legend><strong>Add Driver</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="name">Name:</label>
 				<input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]{1,}" placeholder="Jane" required>
 
-				<label for="address">Address:</label>
-				<input type="text" class="form-control" id="address" name="address" pattern="[A-Za-z0-9 ]{1,}" placeholder="123 Street Dr" required>
-
 				<label for="phone">Phone Number:</label>
 				<input type="text" class="form-control" id="phone" name="phone" title="Enter digits only" pattern="[0-9]{10}" placeholder="1234567890" required>
 
-				<label for="email">Email:</label>
-				<input type="text" class="form-control" id="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="email@dom.tld"> 
+				<label for="car">Car Model:</label>
+				<input type="text" class="form-control" id="car" name="car" pattern="[A-Za-z ]{1,}" placeholder="Ford Ranger" required> 
             </fieldset>
 
-            <!-- Create 'Add Customer' and 'Cancel' buttons -->
-			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseCustomers()"> 
+            <!-- Create 'Add Driver' and 'Cancel' buttons -->
+			<input type="submit" value="Add Driver" name="Add_Driver" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseDrivers()"> 
         </form>
 	</div>
 </body>
