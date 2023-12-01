@@ -5,7 +5,7 @@
 <!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
 
 <head>
-	<title>Orders</title>
+	<title>Order Details</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -35,7 +35,7 @@
 
 <body onload="browseOrders()">
 	<!-- Navigation header -->
-	<h1>Orders</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | 
+	<h1>Order Details</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | 
 	<a href="orderdetails">Order Details</a> | <a href="pizzas">Pizzas</a> | <a href="toppings">Toppings</a> ]
 	<!-- browse -->
 	<div id="browse">
@@ -49,7 +49,7 @@
                             <!-- Create the header row -->
                         <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
                         <!-- {% endfor %} -->
-                        <th>Order Number</th><th>Customer ID</th><th>Driver ID</th><th>Price</th><th>Date</th><th>Cancelled</th> 
+                        <th>Order Item ID</th><th>Order Number</th><th>Pizza ID</th><th>Quantity</th> 
                     </tr>
 
 				<tbody>
@@ -63,17 +63,17 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><input class="btn" type="button" value="Edit"></td>
-						    <td><input class="btn" type="button" value="Delete" onClick=""> </td>
+						    {# <td><input class="btn" type="button" value="Edit"></td>
+						    <td><input class="btn" type="button" value="Delete" onClick=""> </td> #}
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
-        </table>   
-		<p><input class="btn" type="button" value="Create New Order" onClick="newOrder()"></p>
+        {# </table>   
+		<p><input class="btn" type="button" value="Create New Order" onClick="newOrder()"></p> #}
 	</div>
 
 	<!--insert-->
-	<div id="insert">
+	{# <div id="insert">
 		<!-- form to INSERT new data into Customers-->
 		<form id="newOrder" action="/orders" method="post">
 			<legend><strong>Order up to 3 different pizzas.</strong></legend>
@@ -126,7 +126,7 @@
 
             <!-- Create 'Add Customer' and 'Cancel' buttons -->
 			<input type="submit" value="Submit Order" name="Submit_Order" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseOrders()"> 
+			<input class="btn" type="button" value="Cancel" onClick="browseOrders()">  #}
         </form>
 	</div>
 </body>

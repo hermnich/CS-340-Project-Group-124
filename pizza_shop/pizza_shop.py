@@ -13,18 +13,18 @@ app = Flask(__name__)
 
 # database connection
 # Template: oops
-# app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-# app.config["MYSQL_USER"] = "cs340_"
-# app.config["MYSQL_PASSWORD"] = ""
-# app.config["MYSQL_DB"] = "cs340_"
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_walsbria"
+app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
+app.config["MYSQL_DB"] = "cs340_walsbria"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "brian"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "project_schema"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# app.config["MYSQL_HOST"] = "localhost"
+# app.config["MYSQL_USER"] = "brian"
+# app.config["MYSQL_PASSWORD"] = ""
+# app.config["MYSQL_DB"] = "project_schema"
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
 # app.config["MYSQL_HOST"] = "localhost"
@@ -580,13 +580,13 @@ def orders():
             driver_id = request.form["driverID"]
 
             # first enter customer and driver and price in to orders, then get order ID and fill out orderitems
-            query = "INSERT INTO orders (customerID, driverID, price) VALUES (%s, %s, %s)"
+            query = "INSERT INTO Orders (customerID, driverID, price) VALUES (%s, %s, %s)"
             cur = mysql.connection.cursor()
             cur.execute(query, (cust_id, driver_id, price))
             mysql.connection.commit()
 
             # get the most recent order number. figure out how to do by date
-            query = "SELECT MAX(orderNum) from orders"
+            query = "SELECT MAX(orderNum) from Orders"
             cur = mysql.connection.cursor()
             cur.execute(query)
             data = cur.fetchall()
@@ -594,20 +594,20 @@ def orders():
             order_number = int(order_number['MAX(orderNum)'])
 
             # write order data to orderItems
-            query = "INSERT INTO orderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+            query = "INSERT INTO OrderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
             cur = mysql.connection.cursor()
             # print(query, (order_number, pizza1, qty1))
             cur.execute(query, (order_number, pizza1, qty1))
             mysql.connection.commit()
 
             if pizza2 != "":
-                query = "INSERT INTO orderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+                query = "INSERT INTO OrderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (order_number, pizza2, qty2))
                 mysql.connection.commit()
 
             if pizza3 != "":
-                query = "INSERT INTO orderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+                query = "INSERT INTO OrderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (order_number, pizza3, qty3))
                 mysql.connection.commit()
@@ -617,13 +617,27 @@ def orders():
 
     # Get all orders to display
     if request.method == "GET":
-        query = "SELECT * from orders"
+        query = "SELECT * from Orders"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
         # render orders page
         return render_template("orders.j2", data=data)
+
+
+# route for order details page
+@app.route("/orderdetails", methods=["POST", "GET"])
+def orderdetails():
+    # Get all orders to display
+    if request.method == "GET":
+        query = "SELECT * from OrderItems"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render orders page
+        return render_template("orderdetails.j2", data=data)
 
 # Listener
 # change the port number if deploying on the flip servers
