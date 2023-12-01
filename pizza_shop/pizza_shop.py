@@ -20,18 +20,18 @@ app = Flask(__name__)
 # app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-# app.config["MYSQL_HOST"] = "localhost"
-# app.config["MYSQL_USER"] = "brian"
-# app.config["MYSQL_PASSWORD"] = ""
-# app.config["MYSQL_DB"] = "project_schema"
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_USER"] = "brian"
+app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_DB"] = "project_schema"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "root"
-app.config["MYSQL_DB"] = "testdb"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# app.config["MYSQL_HOST"] = "localhost"
+# app.config["MYSQL_USER"] = "root"
+# app.config["MYSQL_PASSWORD"] = "root"
+# app.config["MYSQL_DB"] = "testdb"
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
 
@@ -560,6 +560,70 @@ def edit_topping(toppingID):
             # redirect back to toppings page
             return redirect("/toppings")
 
+# route for orders page
+@app.route("/orders", methods=["POST", "GET"])
+def orders():
+        
+    # create a new order
+    if request.method == "POST":
+        # fire off if user clicks the 'Add Topping' button
+        if request.form.get("Submit_Order"):
+            # grab user form inputs
+            pizza1 = request.form["pizza_1"]
+            qty1 = request.form["pizza_1_qty"]
+            price = 10
+            pizza2 = request.form["pizza_2"]
+            qty2 = request.form["pizza_2_qty"]
+            pizza3 = request.form["pizza_3"]
+            qty3 = request.form["pizza_3_qty"]
+            cust_id = request.form["customerID"]
+            driver_id = request.form["driverID"]
+
+            # first enter customer and driver and price in to orders, then get order ID and fill out orderitems
+            query = "INSERT INTO orders (customerID, driverID, price) VALUES (%s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (cust_id, driver_id, price))
+            mysql.connection.commit()
+
+            # get the most recent order number. figure out how to do by date
+            query = "SELECT MAX(orderNum) from orders"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            data = cur.fetchall()
+            order_number = data[0]
+            order_number = int(order_number['MAX(orderNum)'])
+
+            # write order data to orderItems
+            query = "INSERT INTO orderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+            cur = mysql.connection.cursor()
+            # print(query, (order_number, pizza1, qty1))
+            cur.execute(query, (order_number, pizza1, qty1))
+            mysql.connection.commit()
+
+            if pizza2 != "":
+                query = "INSERT INTO orderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (order_number, pizza2, qty2))
+                mysql.connection.commit()
+
+            if pizza3 != "":
+                query = "INSERT INTO orderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (order_number, pizza3, qty3))
+                mysql.connection.commit()
+
+            return redirect("/orders")
+
+
+    # Get all orders to display
+    if request.method == "GET":
+        query = "SELECT * from orders"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render orders page
+        return render_template("orders.j2", data=data)
 
 # Listener
 # change the port number if deploying on the flip servers

@@ -1,0 +1,132 @@
+<html>
+<!-- Citation for the following code: -->
+<!-- Date: 2023/11/15 -->
+<!-- Based on: -->
+<!-- Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app -->
+
+<head>
+	<title>Orders</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * two DIVS: browse and insert
+		 * this function sets one visible the other not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+		}
+	}
+
+	function newOrder() {
+		showform('insert');
+	}
+
+	function browseOrders() {
+		showform('browse');
+	}
+
+	</script>
+</head>
+
+<body onload="browseOrders()">
+	<!-- Navigation header -->
+	<h1>Orders</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | <a href="pizzas">Pizzas</a> | <a href="toppings">Toppings</a> ]
+	<!-- browse -->
+	<div id="browse">
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from pizza_shop.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column names -->
+                        <!-- {% for key in data[0].keys() %} -->
+                            <!-- Create the header row -->
+                        <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
+                        <!-- {% endfor %} -->
+                        <th>Order Number</th><th>Customer ID</th><th>Driver ID</th><th>Price</th><th>Date</th><th>Cancelled</th> 
+                    </tr>
+
+				<tbody>
+					<!-- Iterate through every item in data -->
+					{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+								<!-- Create a <td> element with the value of that key in it -->
+								<td> {% if item[key] %} {{item[key]}} {% endif %} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+						    <td><input class="btn" type="button" value="Edit"></td>
+						    <td><input class="btn" type="button" value="Delete" onClick=""> </td>
+					    </tr> 
+                    {% endfor %} 
+                {% endif %} 
+        </table>   
+		<p><input class="btn" type="button" value="Create New Order" onClick="newOrder()"></p>
+	</div>
+
+	<!--insert-->
+	<div id="insert">
+		<!-- form to INSERT new data into Customers-->
+		<form id="newOrder" action="/orders" method="post">
+			<legend><strong>Order up to 3 different pizzas.</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="pizza_1">Pizza 1:</label>
+				<select class="form-control" id="pizza_1" name="pizza_1" placeholder="" required>
+					<option value="1">Pizza 1</option> </option>
+					<option value="2">Pizza 2</option> </option>
+				</select>
+
+				<label for="pizza_1_qty">Quantity:</label>
+				<input type="text" class="form-control" id="pizza_1_qty" name="pizza_1_qty" pattern="[0-9]" default="1">
+				<br>
+
+				<label for="pizza_2">Pizza 2:</label>
+				<select class="form-control" id="pizza_2" name="pizza_2" placeholder="" required>
+					<option value="1">Pizza 1</option> </option>
+					<option value="2">Pizza 2</option> </option>
+				</select>
+
+				<label for="pizza_2_qty">Quantity:</label>
+				<input type="text" class="form-control" id="pizza_2_qty" name="pizza_2_qty" pattern="[0-9]" default="1">
+				<br>
+
+				<label for="pizza_3">Pizza 3:</label>
+				<select class="form-control" id="pizza_3" name="pizza_3" placeholder="" required>
+					<option value="1">Pizza 1</option> </option>
+					<option value="2">Pizza 2</option> </option>
+				</select>
+
+				<label for="pizza_3_qty">Quantity:</label>
+				<input type="text" class="form-control" id="pizza_3_qty" name="pizza_3_qty" pattern="[0-9]" default="1">
+				<br>
+
+				<label for="customerID">Ordering Customer:</label>
+				<select class="form-control" id="customerID" name="customerID" placeholder="" required>
+					<option value="1">Customer 1</option> </option>
+					<option value="2">Customer 2</option> </option>
+				</select>
+				<br>
+
+				<label for="driverID">Assigned Driver:</label>
+				<select class="form-control" id="driverID" name="driverID" placeholder="" required>
+					<option value="1">Driver 1</option> </option>
+					<option value="2">Driver 2</option> </option>
+				</select>
+
+            </fieldset>
+
+            <!-- Create 'Add Customer' and 'Cancel' buttons -->
+			<input type="submit" value="Submit Order" name="Submit_Order" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseOrders()"> 
+        </form>
+	</div>
+</body>
+</html>

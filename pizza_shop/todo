@@ -1,7 +1,3 @@
-Clean up comments, eliminate references to the example code.
-Eliminate if/then statements if we don't think they are required. Maybe want to allow email to be NULL?
-Add the required stuff so we don't get accused of plaigarism
-Make sure capitalization etc match across the forms
-Pre-fill text inputs on edit page with existing customer data
-Make phone number input auto-format the input to (xxx)xxx-xxxx or something along those lines
-Delete operation confirmation dialog?
+Add orderItems page as order details
+populate drop downs for new order
+implement delete cascade somewhere. maybe delete an order?
