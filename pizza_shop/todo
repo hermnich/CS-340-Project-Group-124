@@ -1,7 +1,3 @@
-Add orderItems page as order details
-populate drop downs for new order
-implement delete cascade somewhere. maybe delete an order?
 link to order details from orders page
 remove or implement cancelled function from orders db
-make default pizza selection null
-implement price field on order screen
+
