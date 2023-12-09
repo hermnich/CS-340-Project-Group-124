@@ -13,18 +13,18 @@ app = Flask(__name__)
 
 # database connection
 # Template: oops
-# app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-# app.config["MYSQL_USER"] = "cs340_walsbria"
-# app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
-# app.config["MYSQL_DB"] = "cs340_walsbria"
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+app.config["MYSQL_USER"] = "cs340_walsbria"
+app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
+app.config["MYSQL_DB"] = "cs340_walsbria"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "brian"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "project_schema"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# app.config["MYSQL_HOST"] = "localhost"
+# app.config["MYSQL_USER"] = "brian"
+# app.config["MYSQL_PASSWORD"] = ""
+# app.config["MYSQL_DB"] = "project_schema"
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
 # app.config["MYSQL_HOST"] = "localhost"
@@ -583,20 +583,26 @@ def orders():
             cur.execute(query, (pizza1))
             data = cur.fetchall()
             price = data[0]['price']
+            price = price * int(qty1)
+            print(type(price))
+
 
             if pizza2 != "":
                 query = "SELECT price from Pizzas where pizzaID = %s"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (pizza2))
                 data = cur.fetchall()
-                price += data[0]['price']
+                itemPrice = data[0]['price'] * int(qty2)
+                price += itemPrice
 
             if pizza3 != "":
                 query = "SELECT price from Pizzas where pizzaID = %s"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (pizza3))
                 data = cur.fetchall()
-                price += data[0]['price']             
+                itemPrice = data[0]['price'] * int(qty3)
+                price += itemPrice
+        
 
             # first enter customer and driver and price in to orders, then get order ID and fill out orderitems
             query = "INSERT INTO Orders (customerID, driverID, price) VALUES (%s, %s, %s)"
@@ -658,6 +664,18 @@ def orders():
 
         # render orders page
         return render_template("orders.j2", data=data, pizzas=pizzas, customers=customers, drivers=drivers)
+
+# route to delete an order
+@app.route("/delete_order/<int:orderID>")
+def delete_order(orderID):
+    query = "DELETE FROM Orders WHERE orderNum = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (orderID,))
+    mysql.connection.commit()
+
+    # redirect back to drivers page
+    return redirect("/orders")
+
 
 
 # route for order details page

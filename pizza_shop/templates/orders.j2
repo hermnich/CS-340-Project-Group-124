@@ -30,6 +30,12 @@
 		showform('browse');
 	}
 
+	function onDelete(orderNum) {
+		if (window.confirm(`Are you sure you want to delete this order?`)) {
+			window.location.href = `delete_order/${orderNum}`
+		}
+	}
+
 	</script>
 </head>
 
@@ -63,7 +69,7 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><input class="btn" type="button" value="Delete" onClick=""> </td>
+						    <td><input class="btn" type="button" value="Delete" onClick="onDelete({{item.orderNum}})"> </td>
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
