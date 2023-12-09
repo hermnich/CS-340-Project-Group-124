@@ -63,7 +63,6 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><input class="btn" type="button" value="Edit"></td>
 						    <td><input class="btn" type="button" value="Delete" onClick=""> </td>
 					    </tr> 
                     {% endfor %} 
@@ -74,15 +73,18 @@
 
 	<!--insert-->
 	<div id="insert">
-		<!-- form to INSERT new data into Customers-->
+		<!-- form to INSERT new data into Orders-->
 		<form id="newOrder" action="/orders" method="post">
 			<legend><strong>Order up to 3 different pizzas.</strong></legend>
 			<fieldset>
+				{# {% print(pizzas) %} #}
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="pizza_1">Pizza 1:</label>
-				<select class="form-control" id="pizza_1" name="pizza_1" placeholder="" required>
-					<option value="1">Pizza 1</option> </option>
-					<option value="2">Pizza 2</option> </option>
+				<select class="form-control" id="pizza_1" name="pizza_1">
+					<option value="" selected>Select Pizza</option>
+					{% for pizza in pizzas %}
+						<option value="{{pizza["pizzaID"]}}"> {{pizza["name"]}} </option>
+					{% endfor %}
 				</select>
 
 				<label for="pizza_1_qty">Quantity:</label>
@@ -90,9 +92,12 @@
 				<br>
 
 				<label for="pizza_2">Pizza 2:</label>
-				<select class="form-control" id="pizza_2" name="pizza_2" placeholder="" required>
-					<option value="1">Pizza 1</option> </option>
-					<option value="2">Pizza 2</option> </option>
+				<select class="form-control" id="pizza_2" name="pizza_2">
+					<option value="" selected>Select Pizza</option>
+					{% for pizza in pizzas %}
+						<option value="{{pizza["pizzaID"]}}"> {{pizza["name"]}} </option>
+					{% endfor %}
+					
 				</select>
 
 				<label for="pizza_2_qty">Quantity:</label>
@@ -100,26 +105,32 @@
 				<br>
 
 				<label for="pizza_3">Pizza 3:</label>
-				<select class="form-control" id="pizza_3" name="pizza_3" placeholder="" required>
-					<option value="1">Pizza 1</option> </option>
-					<option value="2">Pizza 2</option> </option>
+				<select class="form-control" id="pizza_3" name="pizza_3">
+					<option value="" selected>Select Pizza</option>
+					{% for pizza in pizzas %}
+						<option value="{{pizza["pizzaID"]}}"> {{pizza["name"]}} </option>
+					{% endfor %}
 				</select>
 
 				<label for="pizza_3_qty">Quantity:</label>
 				<input type="text" class="form-control" id="pizza_3_qty" name="pizza_3_qty" pattern="[0-9]" default="1">
 				<br>
 
-				<label for="customerID">Ordering Customer:</label>
+				<label for="customerID">Ordered By:</label>
 				<select class="form-control" id="customerID" name="customerID" placeholder="" required>
-					<option value="1">Customer 1</option> </option>
-					<option value="2">Customer 2</option> </option>
+					<option value="">Select Customer</option>
+					{% for customer in customers %}
+						<option value="{{customer["customerID"]}}"> {{customer["name"]}} </option>
+					{% endfor %}
 				</select>
 				<br>
 
 				<label for="driverID">Assigned Driver:</label>
 				<select class="form-control" id="driverID" name="driverID" placeholder="" required>
-					<option value="1">Driver 1</option> </option>
-					<option value="2">Driver 2</option> </option>
+					<option value="">Select Driver</option>
+					{% for driver in drivers %}
+						<option value="{{driver["driverID"]}}"> {{driver["name"]}} </option>
+					{% endfor %}
 				</select>
 
             </fieldset>

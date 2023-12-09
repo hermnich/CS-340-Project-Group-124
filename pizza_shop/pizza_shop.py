@@ -13,18 +13,18 @@ app = Flask(__name__)
 
 # database connection
 # Template: oops
-app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_walsbria"
-app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
-app.config["MYSQL_DB"] = "cs340_walsbria"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
+# app.config["MYSQL_USER"] = "cs340_walsbria"
+# app.config["MYSQL_PASSWORD"] = "EFsD2wR1kAsV"
+# app.config["MYSQL_DB"] = "cs340_walsbria"
+# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
-# app.config["MYSQL_HOST"] = "localhost"
-# app.config["MYSQL_USER"] = "brian"
-# app.config["MYSQL_PASSWORD"] = ""
-# app.config["MYSQL_DB"] = "project_schema"
-# app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_USER"] = "brian"
+app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_DB"] = "project_schema"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 # database connection info
 # app.config["MYSQL_HOST"] = "localhost"
@@ -566,18 +566,37 @@ def orders():
         
     # create a new order
     if request.method == "POST":
-        # fire off if user clicks the 'Add Topping' button
+        # fire off if user clicks the 'New Order' button
         if request.form.get("Submit_Order"):
             # grab user form inputs
             pizza1 = request.form["pizza_1"]
             qty1 = request.form["pizza_1_qty"]
-            price = 10
             pizza2 = request.form["pizza_2"]
             qty2 = request.form["pizza_2_qty"]
             pizza3 = request.form["pizza_3"]
             qty3 = request.form["pizza_3_qty"]
             cust_id = request.form["customerID"]
             driver_id = request.form["driverID"]
+
+            query = "SELECT price from Pizzas where pizzaID = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (pizza1))
+            data = cur.fetchall()
+            price = data[0]['price']
+
+            if pizza2 != "":
+                query = "SELECT price from Pizzas where pizzaID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (pizza2))
+                data = cur.fetchall()
+                price += data[0]['price']
+
+            if pizza3 != "":
+                query = "SELECT price from Pizzas where pizzaID = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (pizza3))
+                data = cur.fetchall()
+                price += data[0]['price']             
 
             # first enter customer and driver and price in to orders, then get order ID and fill out orderitems
             query = "INSERT INTO Orders (customerID, driverID, price) VALUES (%s, %s, %s)"
@@ -593,7 +612,7 @@ def orders():
             order_number = data[0]
             order_number = int(order_number['MAX(orderNum)'])
 
-            # write order data to orderItems
+            # write order data to orderItems   
             query = "INSERT INTO OrderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
             cur = mysql.connection.cursor()
             # print(query, (order_number, pizza1, qty1))
@@ -622,8 +641,23 @@ def orders():
         cur.execute(query)
         data = cur.fetchall()
 
+        query = "SELECT pizzaID, name from Pizzas"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        pizzas = cur.fetchall()
+
+        query = "SELECT customerID, name from Customers"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        customers = cur.fetchall()
+
+        query = "SELECT driverID, name from Drivers"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        drivers = cur.fetchall()
+
         # render orders page
-        return render_template("orders.j2", data=data)
+        return render_template("orders.j2", data=data, pizzas=pizzas, customers=customers, drivers=drivers)
 
 
 # route for order details page
