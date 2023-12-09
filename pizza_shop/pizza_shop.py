@@ -666,11 +666,11 @@ def orders():
         return render_template("orders.j2", data=data, pizzas=pizzas, customers=customers, drivers=drivers)
 
 # route to delete an order
-@app.route("/delete_order/<int:orderID>")
-def delete_order(orderID):
+@app.route("/delete_order/<int:orderNum>")
+def delete_order(orderNum):
     query = "DELETE FROM Orders WHERE orderNum = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (orderID,))
+    cur.execute(query, (orderNum,))
     mysql.connection.commit()
 
     # redirect back to drivers page
@@ -679,17 +679,30 @@ def delete_order(orderID):
 
 
 # route for order details page
-@app.route("/orderdetails", methods=["POST", "GET"])
+@app.route("/orderdetails")
 def orderdetails():
-    # Get all orders to display
-    if request.method == "GET":
-        query = "SELECT * from OrderItems"
-        cur = mysql.connection.cursor()
-        cur.execute(query)
-        data = cur.fetchall()
 
-        # render orders page
-        return render_template("orderdetails.j2", data=data)
+    # Get all orders to display    
+    query = "SELECT * from OrderItems"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+
+    # render orders page
+    return render_template("orderdetails.j2", data=data)
+
+    
+@app.route("/orderdetailbyorder/<int:orderNum>")
+def orderdetailbynum(orderNum):
+
+    # Get all orders to display with orderNum
+    query = "SELECT * from OrderItems where orderNum = %s"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (orderNum,))
+    data = cur.fetchall()
+
+    # render orders page
+    return render_template("orderdetails.j2", data=data)
 
 # Listener
 # change the port number if deploying on the flip servers

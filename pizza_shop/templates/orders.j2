@@ -36,13 +36,17 @@
 		}
 	}
 
+	function onDetails(orderNum) {
+		window.location.href = `orderdetailbyorder/${orderNum}`
+	}
+
 	</script>
 </head>
 
 <body onload="browseOrders()">
 	<!-- Navigation header -->
-	<h1>Orders</h1> [ <a href="customers">Customers</a> | <a href="drivers">Drivers</a> | <a href="orders">Orders</a> | 
-	<a href="orderdetails">Order Details</a> | <a href="pizzas">Pizzas</a> | <a href="toppings">Toppings</a> ]
+	<h1>Orders</h1> [ <a href="/customers">Customers</a> | <a href="/drivers">Drivers</a> | <a href="/orders">Orders</a> | 
+	<a href="/orderdetails">Order Details</a> | <a href="/pizzas">Pizzas</a> | <a href="/toppings">Toppings</a> ]
 	<!-- browse -->
 	<div id="browse">
 		<table border="1" cellpadding="5">
@@ -55,7 +59,7 @@
                             <!-- Create the header row -->
                         <!--    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th> -->
                         <!-- {% endfor %} -->
-                        <th>Order Number</th><th>Customer ID</th><th>Driver ID</th><th>Price</th><th>Date</th><th>Cancelled</th> 
+                        <th>Order Number</th><th>Customer ID</th><th>Driver ID</th><th>Price</th><th>Time</th> 
                     </tr>
 
 				<tbody>
@@ -70,6 +74,8 @@
 
                             <!-- Create our edit/delete buttons -->
 						    <td><input class="btn" type="button" value="Delete" onClick="onDelete({{item.orderNum}})"> </td>
+							<td><input class="btn" type="button" value="Details" onClick="onDetails({{item.orderNum}})"> </td>
+
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
