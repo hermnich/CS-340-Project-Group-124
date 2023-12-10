@@ -578,6 +578,7 @@ def orders():
             cust_id = request.form["customerID"]
             driver_id = request.form["driverID"]
 
+            # get the price of the pizza and multiply if required to display on orders page
             query = "SELECT price from Pizzas where pizzaID = %s"
             cur = mysql.connection.cursor()
             cur.execute(query, (pizza1))
@@ -586,7 +587,7 @@ def orders():
             price = price * int(qty1)
             print(type(price))
 
-
+            # if pizza2 or pizza3 are not null then add them to the orders as well
             if pizza2 != "":
                 query = "SELECT price from Pizzas where pizzaID = %s"
                 cur = mysql.connection.cursor()
@@ -610,7 +611,7 @@ def orders():
             cur.execute(query, (cust_id, driver_id, price))
             mysql.connection.commit()
 
-            # get the most recent order number. figure out how to do by date
+            # get the most recent order number
             query = "SELECT MAX(orderNum) from Orders"
             cur = mysql.connection.cursor()
             cur.execute(query)
@@ -678,7 +679,7 @@ def delete_order(orderNum):
 
 
 
-# route for order details page
+# display details of all orders
 @app.route("/orderdetails")
 def orderdetails():
 
@@ -691,7 +692,7 @@ def orderdetails():
     # render orders page
     return render_template("orderdetails.j2", data=data)
 
-    
+# display details about a single order from the orders page    
 @app.route("/orderdetailbyorder/<int:orderNum>")
 def orderdetailbynum(orderNum):
 

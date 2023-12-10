@@ -89,8 +89,8 @@
 		<form id="newOrder" action="/orders" method="post">
 			<legend><strong>Order up to 3 different pizzas.</strong></legend>
 			<fieldset>
-				{# {% print(pizzas) %} #}
-                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				
+                <!--Create pre-filled dropdowns for the options to create a new order -->
 				<label for="pizza_1">Pizza 1:</label>
 				<select class="form-control" id="pizza_1" name="pizza_1">
 					<option value="" selected>Select Pizza</option>
@@ -147,7 +147,7 @@
 
             </fieldset>
 
-            <!-- Create 'Add Customer' and 'Cancel' buttons -->
+            <!-- Create 'Submit Order' and 'Cancel' buttons -->
 			<input type="submit" value="Submit Order" name="Submit_Order" class="btn btn-primary" style="margin:.5rem;">
 			<input class="btn" type="button" value="Cancel" onClick="browseOrders()"> 
         </form>
