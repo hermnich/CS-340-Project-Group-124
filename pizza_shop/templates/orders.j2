@@ -137,9 +137,10 @@
 				</select>
 				<br>
 
-				<label for="driverID">Assigned Driver:</label>
-				<select class="form-control" id="driverID" name="driverID" placeholder="" required>
+				<label for="driverID">Assigned Driver: (Select Pickup For None)</label>
+				<select class="form-control" id="driverID" name="driverID" placeholder="">
 					<option value="">Select Driver</option>
+					<option value="">Pickup Order</option>
 					{% for driver in drivers %}
 						<option value="{{driver["driverID"]}}"> {{driver["name"]}} </option>
 					{% endfor %}

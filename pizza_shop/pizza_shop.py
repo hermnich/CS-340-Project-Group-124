@@ -609,10 +609,21 @@ def orders():
             date = datetime.datetime.now()
 
             # first enter customer and driver and price in to orders, then get order ID and fill out orderitems
-            query = "INSERT INTO Orders (customerID, driverID, price, date) VALUES (%s, %s, %s, %s)"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (cust_id, driver_id, price, date))
-            mysql.connection.commit()
+            
+            if driver_id != "":
+                query = "INSERT INTO Orders (customerID, driverID, price, date) VALUES (%s, %s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (cust_id, driver_id, price, date))
+                mysql.connection.commit()
+
+            # if it's a pick up order insert NULL in driverID    
+            else:
+                query = "INSERT INTO Orders (customerID, price, date) VALUES (%s, %s, %s)"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (cust_id, price, date))
+                mysql.connection.commit()
+
+
 
             # get the most recent order number
             query = "SELECT MAX(orderNum) from Orders"
