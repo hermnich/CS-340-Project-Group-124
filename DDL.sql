@@ -30,7 +30,6 @@ CREATE TABLE `Orders` (
 	`driverID` INT,
 	`price` DECIMAL(5,2) NOT NULL,
 	`date` DATETIME NOT NULL,
-	`cancelled` TINYINT NOT NULL DEFAULT 0,
 	PRIMARY KEY (`orderNum`),
 	FOREIGN KEY (`customerID`)
 		REFERENCES `Customers` (`customerID`)
@@ -130,11 +129,11 @@ VALUES
 
 
 -- Populate Orders Table
-INSERT INTO `Orders` (`customerID`, `driverID`, `price`, `date`, `cancelled`)
+INSERT INTO `Orders` (`customerID`, `driverID`, `price`, `date`)
 VALUES 
-((SELECT `customerID` FROM `Customers` WHERE `name` = "Anthony"), (SELECT `driverID` FROM `Drivers` WHERE `name` = "Phil"), 10.23, '2023-04-26', 0),
-((SELECT `customerID` FROM `Customers` WHERE `name` = "Anthony"), (SELECT `driverID` FROM `Drivers` WHERE `name` = "Ed"), 36.83, '2021-08-13', 1),
-((SELECT `customerID` FROM `Customers` WHERE `name` = "Jeff"), (SELECT `driverID` FROM `Drivers` WHERE `name` = "Phil"), 26.99, '2022-11-08', 0);
+((SELECT `customerID` FROM `Customers` WHERE `name` = "Anthony"), (SELECT `driverID` FROM `Drivers` WHERE `name` = "Phil"), 10.23, '2023-04-26'),
+((SELECT `customerID` FROM `Customers` WHERE `name` = "Anthony"), (SELECT `driverID` FROM `Drivers` WHERE `name` = "Ed"), 36.83, '2021-08-13'),
+((SELECT `customerID` FROM `Customers` WHERE `name` = "Jeff"), (SELECT `driverID` FROM `Drivers` WHERE `name` = "Phil"), 26.99, '2022-11-08');
 
 
 -- Populate OrderItems Table

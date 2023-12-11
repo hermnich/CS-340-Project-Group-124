@@ -6,6 +6,7 @@
 from flask import Flask, render_template, json, redirect
 from flask_mysqldb import MySQL
 from flask import request
+import datetime
 import os
 
 
@@ -254,8 +255,8 @@ def add_pizza():
 
             # Account for null description
             if desc == "":
-                query = "INSERT INTO Pizzas (name, price, description) VALUES (%s, %s, %s)"
-                cur.execute(query, (name, price, desc))
+                query = "INSERT INTO Pizzas (name, price) VALUES (%s, %s, %s)"
+                cur.execute(query, (name, price))
                 mysql.connection.commit()
 
             # no null inputs
@@ -287,7 +288,7 @@ def add_pizza():
             values["toppings"][int(index)] = {"toppingID": toppingID, "quantity": qty}
 
             # Get list of all topping names and id
-            query = "SELECT * FROM Toppings"
+            query = "SELECT toppingID, name FROM Toppings"
             cur = mysql.connection.cursor()
             cur.execute(query)
             topping_list = cur.fetchall()
@@ -304,7 +305,7 @@ def add_pizza():
             values["toppings"].append({"toppingID": toppingID, "quantity": qty})
 
             # Get list of all topping names and id
-            query = "SELECT * FROM Toppings"
+            query = "SELECT toppingID, name FROM Toppings"
             cur = mysql.connection.cursor()
             cur.execute(query)
             topping_list = cur.fetchall()
@@ -323,7 +324,7 @@ def add_pizza():
             del values["toppings"][int(index)]
 
             # Get list of all topping names and id
-            query = "SELECT * FROM Toppings"
+            query =  "SELECT toppingID, name FROM Toppings"
             cur = mysql.connection.cursor()
             cur.execute(query)
             topping_list = cur.fetchall()
@@ -336,7 +337,7 @@ def add_pizza():
     if request.method == "GET":
 
         # Get list of all topping names and id
-        query = "SELECT * FROM Toppings"
+        query =  "SELECT toppingID, name FROM Toppings"
         cur = mysql.connection.cursor()
         cur.execute(query)
         topping_list = cur.fetchall()
@@ -397,7 +398,7 @@ def edit_pizza(pizzaID):
         topping_data = cur.fetchall()
 
         # Get list of all topping names and id
-        query = "SELECT * FROM Toppings"
+        query = "SELECT toppingID, name FROM Toppings"
         cur = mysql.connection.cursor()
         cur.execute(query)
         topping_list = cur.fetchall()
@@ -603,12 +604,14 @@ def orders():
                 data = cur.fetchall()
                 itemPrice = data[0]['price'] * int(qty3)
                 price += itemPrice
-        
+
+            # Get the current date
+            date = datetime.datetime.now()
 
             # first enter customer and driver and price in to orders, then get order ID and fill out orderitems
-            query = "INSERT INTO Orders (customerID, driverID, price) VALUES (%s, %s, %s)"
+            query = "INSERT INTO Orders (customerID, driverID, price, date) VALUES (%s, %s, %s, %s)"
             cur = mysql.connection.cursor()
-            cur.execute(query, (cust_id, driver_id, price))
+            cur.execute(query, (cust_id, driver_id, price, date))
             mysql.connection.commit()
 
             # get the most recent order number
@@ -680,17 +683,35 @@ def delete_order(orderNum):
 
 
 # display details of all orders
-@app.route("/orderdetails")
+@app.route("/orderdetails", methods=["POST", "GET"])
 def orderdetails():
 
-    # Get all orders to display    
-    query = "SELECT * from OrderItems"
-    cur = mysql.connection.cursor()
-    cur.execute(query)
-    data = cur.fetchall()
+    # create a new order
+    if request.method == "POST":
+        # grab user form inputs
+        order_number = request.form["orderNum"]
+        pizza = request.form["pizza"]
+        qty = request.form["pizza_qty"]
 
-    # render orders page
-    return render_template("orderdetails.j2", data=data)
+        query = "INSERT INTO OrderItems (orderNum, pizzaID, quantity) VALUES (%s, %s, %s)"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (order_number, pizza, qty))
+        mysql.connection.commit()
+
+        # redirect back to order details
+        return redirect("/orderdetailbyorder/%d" % int(order_number))
+
+
+    if request.method == "GET":
+
+        # Get all orders to display    
+        query = "SELECT * from OrderItems"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render orders page
+        return render_template("orderdetails.j2", data=data)
 
 # display details about a single order from the orders page    
 @app.route("/orderdetailbyorder/<int:orderNum>")
@@ -702,8 +723,13 @@ def orderdetailbynum(orderNum):
     cur.execute(query, (orderNum,))
     data = cur.fetchall()
 
+    query = "SELECT pizzaID, name from Pizzas"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    pizzas = cur.fetchall()
+
     # render orders page
-    return render_template("orderdetails.j2", data=data)
+    return render_template("orderdetails.j2", data=data, orderNum=orderNum, pizzas=pizzas)
 
 # Listener
 # change the port number if deploying on the flip servers

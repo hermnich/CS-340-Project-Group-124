@@ -22,18 +22,18 @@
 		}
 	}
 
-	function newOrder() {
+	function newOrderDetail() {
 		showform('insert');
 	}
 
-	function browseOrders() {
+	function browseOrderDetails() {
 		showform('browse');
 	}
 
 	</script>
 </head>
 
-<body onload="browseOrders()">
+<body onload="browseOrderDetails()">
 	<!-- Navigation header -->
 	<h1>Order Details</h1> [ <a href="/customers">Customers</a> | <a href="/drivers">Drivers</a> | <a href="/orders">Orders</a> | 
 	<a href="/orderdetails">Order Details</a> | <a href="/pizzas">Pizzas</a> | <a href="/toppings">Toppings</a> ]
@@ -68,8 +68,42 @@
 					    </tr> 
                     {% endfor %} 
                 {% endif %} 
-        {# </table>   
-		<p><input class="btn" type="button" value="Create New Order" onClick="newOrder()"></p> #}
+        </table>   
+		{% if orderNum %}
+		<p><input class="btn" type="button" value="Create New Order Detail" onClick="newOrderDetail()"></p>
+		{% endif %}
+	</div>
+
+	<!--insert-->
+	<div id="insert">
+		<!-- form to INSERT new data into Orders-->
+		<form id="newOrderDetails" action="/orderdetails" method="post">
+			<legend><strong>Add Order Detail</strong></legend>
+			<fieldset>
+
+				<span>Order: {{orderNum}}
+				<input type="hidden" id="orderNum" name="orderNum" value="{{orderNum}}"/>
+				</span>
+				
+
+				<!--Create pre-filled dropdowns for the options to create a new order detail-->
+				<label for="pizza">Pizza:</label>
+				<select class="form-control" id="pizza" name="pizza">
+					<option value="" selected>Select Pizza</option>
+					{% for pizza in pizzas %}
+						<option value="{{pizza["pizzaID"]}}"> {{pizza["name"]}} </option>
+					{% endfor %}
+				</select>
+
+				<label for="pizza_qty">Quantity:</label>
+				<input type="text" class="form-control" id="pizza_qty" name="pizza_qty" pattern="[0-9]" default="1">
+
+            </fieldset>
+
+            <!-- Create 'Submit Order' and 'Cancel' buttons -->
+			<input type="submit" value="Submit Order Detail" name="Submit_Order" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseOrderDetails()"> 
+        </form>
 	</div>
 
 </body>

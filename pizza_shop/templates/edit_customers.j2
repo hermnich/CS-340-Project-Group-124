@@ -55,7 +55,7 @@
                     <input type="tel" class="form-control" id="phone" name="phone" title="Enter digits only" value="{{data[0].phoneNumber}}" pattern="[0-9-]{10,12}" placeholder="123-456-7890" required>
 
                     <label for="email">Email:</label>
-                    <input type="text" class="form-control" id="email" name="email" value="{% if data[0].emailAddress %} {{data[0].emailAddress}} {% endif %}" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="email@dom.tld"> 
+                    <input type="text" class="form-control" id="email" name="email" value="{% if data[0].emailAddress %}{{data[0].emailAddress}}{% endif %}" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="email@dom.tld"> 
                 </fieldset>	
 
                 <input type="submit" value="Edit Customer" name="Edit_Customer" class="btn btn-primary" style="margin:.5rem;">
